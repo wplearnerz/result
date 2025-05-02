@@ -529,8 +529,7 @@
             </div>
         </div>
     </div>
-
-    <script>
+     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Form elements
             const form = document.getElementById('resultForm');
@@ -547,7 +546,7 @@
                 const subjectCount = document.querySelectorAll('.subject-row').length + 1;
                 const newSubject = document.createElement('div');
                 newSubject.className = 'subject-row row';
-                newSubject.innerHTML = `
+                newSubject.innerHTML = 
                     <div class="col">
                         <div class="form-group">
                             <label for="subject${subjectCount}">Subject ${subjectCount}</label>
@@ -572,7 +571,7 @@
                             <input type="number" class="total-marks" readonly>
                         </div>
                     </div>
-                `;
+                ;
                 subjectContainer.appendChild(newSubject);
                 
                 // Add event listeners for the new inputs
@@ -681,14 +680,14 @@
                     
                     // Add to table
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `
+                    tr.innerHTML = 
                         <td>${subjectName}</td>
                         <td>${theoryMarks || '-'}</td>
                         <td>${practicalMarks || '-'}</td>
                         <td>${total > 0 ? total : '-'}</td>
                         <td>${grade}</td>
                         <td>${remarks}</td>
-                    `;
+                    ;
                     tableBody.appendChild(tr);
                     
                     // Calculate totals
@@ -777,7 +776,7 @@
                     // PDF generation options
                     const options = {
                         margin: 10,
-                        filename: `GGMPS_Result_${document.getElementById('resultStudentName').textContent}.pdf`,
+                        filename: GGMPS_Result_${document.getElementById('resultStudentName').textContent}.pdf,
                         image: { 
                             type: 'jpeg', 
                             quality: 0.98 
@@ -826,5 +825,5 @@
             });
         });
     </script>
-</body>
+    </body>
 </html>
