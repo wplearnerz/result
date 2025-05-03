@@ -1,830 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GGMPS Basti Hala - Result Card Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        @font-face {
-            font-family: 'Jameel Noori Nastaleeq';
-            src: url('https://cdn.rawgit.com/abdulqayyum25/Jameel-Noori-Nastaleeq/master/Jameel-Noori-Nastaleeq.ttf') format('truetype');
-        }
-        
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-        }
+  <meta charset="UTF-8">
+  <title>Result Card Generator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: #e6ecf0;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
 
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
+    .header {
+      text-align: center;
+      padding: 20px;
+      border-bottom: 2px dashed #007BFF;
+      margin-bottom: 50px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .header h1 {
+      color: #007BFF;
+      margin: 0;
+      font-size: 32px;
+    }
 
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            border-radius: 8px 8px 0 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
+    .header small {
+      display: block;
+      font-style: italic;
+      color: #333;
+      font-size: 16px;
+      margin-top: 4px;
+    }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+    .info {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
 
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
+    .info span {
+      color: #444;
+    }
 
-        .card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--secondary-color);
-        }
+    th {
+      background: #007BFF;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
+    td {
+      padding: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
+    td.grade {
+      text-align: center;
+      font-weight: bold;
+      color: white;
+    }
 
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-            display: inline-block;
-        }
+    .summary {
+      margin-top: 30px;
+    }
 
-        .btn:hover {
-            background-color: #2980b9;
-        }
+    .summary p {
+      font-size: 18px;
+      margin: 8px 0;
+    }
 
-        .btn-secondary {
-            background-color: var(--secondary-color);
-        }
+    .grade {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 12px;
+      color: white;
+      font-weight: bold;
+    }
 
-        .btn-secondary:hover {
-            background-color: #1a252f;
-        }
+    .A { background: #28a745; }
+    .B { background: #ffc107; }
+    .C { background: #fd7e14; }
+    .F { background: #dc3545; }
 
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -15px;
-        }
+    .progress-bar {
+      width: 100%;
+      background: #e9ecef;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
 
-        .col {
-            flex: 1;
-            padding: 0 15px;
-            min-width: 250px;
-        }
+    .progress {
+      height: 20px;
+      background: #007BFF;
+      text-align: center;
+      color: white;
+      font-size: 14px;
+      line-height: 20px;
+    }
 
-        .student-photo {
-            width: 150px;
-            height: 180px;
-            border: 3px solid var(--primary-color);
-            border-radius: 4px;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
+    .signatures {
+      margin-top: 60px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #333;
+    }
 
-        .result-card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 30px;
-            margin-top: 30px;
-            position: relative;
-            display: none;
-        }
+    .sign-box {
+      text-align: center;
+    }
 
-        .result-card-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary-color);
-        }
+    .sign-box .line {
+      border-top: 1px solid #444;
+      margin-top: 40px;
+      width: 180px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
-        .result-card-header h2 {
-            color: var(--secondary-color);
-            font-size: 2rem;
-        }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 13px;
+      color: #888;
+    }
 
-        .result-card-header p {
-            color: #666;
-        }
+    #downloadBtn {
+      margin: 30px auto 0;
+      display: none;
+      padding: 12px 30px;
+      background: #007BFF;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        .urdu-text {
-            font-family: 'Jameel Noori Nastaleeq', 'Urdu Typesetting', 'Noto Nastaliq Urdu', sans-serif;
-            font-size: 1.5rem;
-            direction: rtl;
-            line-height: 1.8;
-        }
+    #downloadBtn:hover {
+      background: #0056b3;
+    }
 
-        .student-info {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
+    .form-container {
+      margin-bottom: 30px;
+    }
 
-        .student-info-left {
-            flex: 1;
-            min-width: 250px;
-        }
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
 
-        .student-info-right {
-            flex: 2;
-            min-width: 300px;
-        }
+    button[type="submit"] {
+      padding: 12px 25px;
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
 
-        .info-row {
-            display: flex;
-            margin-bottom: 10px;
-        }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
 
-        .info-label {
-            font-weight: 600;
-            width: 150px;
-            color: var(--secondary-color);
-        }
+    #formContainer {
+      display: block;
+    }
 
-        .info-value {
-            flex: 1;
-        }
+    #resultCard {
+      display: none;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-
-        .summary {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .signature-area {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px dashed #999;
-        }
-
-        .signature {
-            text-align: center;
-            width: 200px;
-        }
-
-        .signature-line {
-            border-top: 1px solid #333;
-            margin: 10px auto;
-            width: 150px;
-        }
-
-        .watermark {
-            position: absolute;
-            opacity: 0.1;
-            font-size: 100px;
-            color: var(--secondary-color);
-            transform: rotate(-30deg);
-            z-index: 0;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .watermark.top {
-            top: 100px;
-            left: 50px;
-        }
-
-        .watermark.bottom {
-            bottom: 100px;
-            right: 50px;
-        }
-
-        .security-features {
-            font-size: 12px;
-            color: #666;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .print-only {
-            display: none;
-        }
-
-        @media print {
-            .no-print {
-                display: none;
-            }
-            .print-only {
-                display: block;
-            }
-            .result-card {
-                display: block !important;
-                border: none;
-                box-shadow: none;
-                padding: 0;
-            }
-            body {
-                background-color: white;
-            }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .col {
-                flex: 100%;
-                margin-bottom: 15px;
-            }
-            .student-info {
-                flex-direction: column;
-            }
-        }
-    </style>
+    .school-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007BFF;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>GGMPS Basti Hala - Result Card Generator</h1>
-            <p>Generate professional student result cards</p>
-        </header>
 
-        <div class="card no-print">
-            <h2>Enter Student Details</h2>
-            <form id="resultForm">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="academicYear">Academic Year</label>
-                            <input type="text" id="academicYear" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="studentName">Student Name</label>
-                            <input type="text" id="studentName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="rollNumber">Roll Number</label>
-                            <input type="text" id="rollNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="className">Class/Grade</label>
-                            <input type="text" id="className" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="studentPhoto">Student Photo</label>
-                            <input type="file" id="studentPhoto" accept="image/*">
-                            <small>Max size: 2MB</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="admissionNumber">Admission Number</label>
-                            <input type="text" id="admissionNumber" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
-                            <input type="date" id="dob" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="fatherName">Father's Name</label>
-                            <input type="text" id="fatherName" required>
-                        </div>
-                    </div>
-                </div>
+<div class="container" id="formContainer">
+  <div class="header">
+    <div class="school-name">GGMPS BASTI HALA - Result Card Generator</div>
+  </div>
 
-                <h3>Subject Marks</h3>
-                <div class="form-group">
-                    <label for="maxMarks">Maximum Marks per Subject</label>
-                    <input type="number" id="maxMarks" value="100" required>
-                </div>
-                
-                <div id="subjectContainer">
-                    <div class="subject-row row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="subject1">Subject 1</label>
-                                <input type="text" class="subject-name" required>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="theory1">Theory Marks (Optional)</label>
-                                <input type="number" class="theory-marks">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="practical1">Practical Marks (Optional)</label>
-                                <input type="number" class="practical-marks">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="total1">Total</label>
-                                <input type="number" class="total-marks" readonly>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="form-container">
+    <h3>Enter Student Details</h3>
+    <form id="studentForm">
+      <input type="text" id="name" placeholder="Student Name" required />
+      <input type="number" id="rollNo" placeholder="Roll Number" required />
+      <input type="text" id="class" placeholder="Class" required />
+      
+      <div>
+        <h4>Marks (Out of 100)</h4>
+        <input type="number" id="mathMarks" placeholder="Math Marks" required />
+        <input type="number" id="mathMaxMarks" placeholder="Math Maximum Marks" required />
 
-                <button type="button" id="addSubject" class="btn btn-secondary">Add Subject</button>
+        <input type="number" id="englishMarks" placeholder="English Marks" required />
+        <input type="number" id="englishMaxMarks" placeholder="English Maximum Marks" required />
 
-                <div class="form-group">
-                    <label for="remarks">Teacher's Remarks</label>
-                    <textarea id="remarks" rows="3"></textarea>
-                </div>
+        <input type="number" id="scienceMarks" placeholder="Science Marks" required />
+        <input type="number" id="scienceMaxMarks" placeholder="Science Maximum Marks" required />
+      </div>
+      <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Generate Result Card</button> 
+      
+    </form>
+  </div>
+</div>
 
-                <button type="button" id="generateBtn" class="btn">Generate Result Card</button>
-                <button type="reset" class="btn btn-secondary">Reset Form</button>
-            </form>
-        </div>
+<div class="container" id="resultCard">
+  <div class="header">
+    <div class="school-name">GGMPS BASTI HALA - Result Card</div>
+  </div>
 
-        <div id="resultCard" class="result-card">
-            <div class="watermark top">SAMPLE</div>
-            <div class="watermark bottom">CONFIDENTIAL</div>
-            
-            <div class="result-card-header">
-                <h2>GOVERNMENT GIRLS MODEL PRIMARY SCHOOL BASTI HALA</h2>
-                <div class="urdu-text">گورنمنٹ گرلز ماڈل پرائمری سکول بستی ہالہ</div>
-                <p>Academic Year: <span id="resultAcademicYear">2023-2024</span></p>
-                <h3>STUDENT REPORT CARD</h3>
-            </div>
+  <div class="info">
+    <div><strong>Name:</strong> <span id="rName">Ali Raza</span></div>
+    <div><strong>Roll No:</strong> <span id="rRoll">07</span></div>
+    <div><strong>Class:</strong> <span id="rClass">5th</span></div>
+  </div>
 
-            <div class="student-info">
-                <div class="student-info-left">
-                    <img id="resultStudentPhoto" src="" alt="Student Photo" class="student-photo">
-                </div>
-                <div class="student-info-right">
-                    <div class="info-row">
-                        <div class="info-label">Student Name:</div>
-                        <div class="info-value" id="resultStudentName">John Doe</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Roll Number:</div>
-                        <div class="info-value" id="resultRollNumber">101</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Class/Grade:</div>
-                        <div class="info-value" id="resultClassName">10th</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Admission No:</div>
-                        <div class="info-value" id="resultAdmissionNumber">ABC123</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Date of Birth:</div>
-                        <div class="info-value" id="resultDob">01/01/2008</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Father's Name:</div>
-                        <div class="info-value" id="resultFatherName">Mr. Smith</div>
-                    </div>
-                </div>
-            </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Marks Obtained</th>
+        <th>Total Marks</th>
+        <th>Grade</th>
+      </tr>
+    </thead>
+    <tbody id="marksTable">
+      <!-- Dynamic Content -->
+    </tbody>
+  </table>
 
-            <table id="resultTable">
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Theory</th>
-                        <th>Practical</th>
-                        <th>Total</th>
-                        <th>Grade</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Subjects will be added here dynamically -->
-                </tbody>
-            </table>
+  <div class="summary">
+    <p><strong>Total Marks:</strong> <span id="totalMarks">0</span> / 300</p>
+    <p><strong>Percentage:</strong> <span id="percentage">0</span>%</p>
+    <p><strong>Final Grade:</strong> <span id="finalGrade" class="grade">A</span></p>
 
-            <div class="summary">
-                <div class="info-row">
-                    <div class="info-label">Total Marks:</div>
-                    <div class="info-value" id="totalMarks">500</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Obtained Marks:</div>
-                    <div class="info-value" id="obtainedMarks">425</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Percentage:</div>
-                    <div class="info-value" id="percentage">85%</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Grade:</div>
-                    <div class="info-value" id="overallGrade">A+</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Position in Class:</div>
-                    <div class="info-value" id="position">3rd</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Teacher's Remarks:</div>
-                    <div class="info-value" id="resultRemarks">Excellent performance. Keep it up!</div>
-                </div>
-            </div>
-
-            <div class="signature-area">
-                <div class="signature">
-                    <div>Class Teacher</div>
-                    <div class="signature-line"></div>
-                </div>
-                <div class="signature">
-                    <div>Principal</div>
-                    <div class="signature-line"></div>
-                </div>
-            </div>
-
-            <div class="security-features print-only">
-                <p>This is a computer generated document. No signature required.</p>
-                <p>Document ID: <span id="documentId"></span> | Generated on: <span id="generatedDate"></span></p>
-            </div>
-
-            <div class="no-print" style="margin-top: 20px;">
-                <button id="printBtn" class="btn">Print Result</button>
-                <button id="downloadPdfBtn" class="btn btn-secondary">Download as PDF</button>
-            </div>
-        </div>
+    <div class="progress-bar">
+      <div class="progress" id="progressBar" style="width: 0%">0%</div>
     </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Form elements
-            const form = document.getElementById('resultForm');
-            const generateBtn = document.getElementById('generateBtn');
-            const addSubjectBtn = document.getElementById('addSubject');
-            const printBtn = document.getElementById('printBtn');
-            const downloadPdfBtn = document.getElementById('downloadPdfBtn');
-            const resultCard = document.getElementById('resultCard');
-            const subjectContainer = document.getElementById('subjectContainer');
-            const maxMarksInput = document.getElementById('maxMarks');
-            
-            // Add subject functionality
-            addSubjectBtn.addEventListener('click', function() {
-                const subjectCount = document.querySelectorAll('.subject-row').length + 1;
-                const newSubject = document.createElement('div');
-                newSubject.className = 'subject-row row';
-                newSubject.innerHTML = `
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="subject${subjectCount}">Subject ${subjectCount}</label>
-                            <input type="text" class="subject-name" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="theory${subjectCount}">Theory Marks (Optional)</label>
-                            <input type="number" class="theory-marks">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="practical${subjectCount}">Practical Marks (Optional)</label>
-                            <input type="number" class="practical-marks">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="total${subjectCount}">Total</label>
-                            <input type="number" class="total-marks" readonly>
-                        </div>
-                    </div>
-                `;
-                subjectContainer.appendChild(newSubject);
-                
-                // Add event listeners for the new inputs
-                const theoryInput = newSubject.querySelector('.theory-marks');
-                const practicalInput = newSubject.querySelector('.practical-marks');
-                const totalInput = newSubject.querySelector('.total-marks');
-                
-                theoryInput.addEventListener('input', calculateTotal);
-                if (practicalInput) {
-                    practicalInput.addEventListener('input', calculateTotal);
-                }
-                
-                function calculateTotal() {
-                    const theory = parseFloat(theoryInput.value) || 0;
-                    const practical = parseFloat(practicalInput.value) || 0;
-                    totalInput.value = theory + practical;
-                }
-            });
-            
-            // Calculate totals for existing subjects
-            document.addEventListener('input', function(e) {
-                if (e.target.classList.contains('theory-marks') || e.target.classList.contains('practical-marks')) {
-                    const row = e.target.closest('.subject-row');
-                    const theory = parseFloat(row.querySelector('.theory-marks').value) || 0;
-                    const practical = parseFloat(row.querySelector('.practical-marks').value) || 0;
-                    row.querySelector('.total-marks').value = theory + practical;
-                }
-            });
-            
-            // Generate result card
-            generateBtn.addEventListener('click', function() {
-                // Validate form
-                if (!form.checkValidity()) {
-                    alert('Please fill in all required fields');
-                    return;
-                }
-                
-                // Basic information
-                document.getElementById('resultAcademicYear').textContent = document.getElementById('academicYear').value;
-                document.getElementById('resultStudentName').textContent = document.getElementById('studentName').value;
-                document.getElementById('resultRollNumber').textContent = document.getElementById('rollNumber').value;
-                document.getElementById('resultClassName').textContent = document.getElementById('className').value;
-                document.getElementById('resultAdmissionNumber').textContent = document.getElementById('admissionNumber').value;
-                document.getElementById('resultFatherName').textContent = document.getElementById('fatherName').value;
-                document.getElementById('resultRemarks').textContent = document.getElementById('remarks').value;
-                
-                // Format date of birth
-                const dob = new Date(document.getElementById('dob').value);
-                document.getElementById('resultDob').textContent = dob.toLocaleDateString();
-                
-                // Handle photo upload
-                const photoInput = document.getElementById('studentPhoto');
-                if (photoInput.files && photoInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('resultStudentPhoto').src = e.target.result;
-                    };
-                    reader.readAsDataURL(photoInput.files[0]);
-                }
-                
-                // Process subjects
-                const subjectRows = document.querySelectorAll('.subject-row');
-                const tableBody = document.querySelector('#resultTable tbody');
-                tableBody.innerHTML = '';
-                
-                const maxMarks = parseFloat(maxMarksInput.value) || 100;
-                let totalPossibleMarks = 0;
-                let obtainedMarks = 0;
-                
-                subjectRows.forEach(row => {
-                    const subjectName = row.querySelector('.subject-name').value;
-                    const theoryMarks = parseFloat(row.querySelector('.theory-marks').value) || 0;
-                    const practicalMarks = parseFloat(row.querySelector('.practical-marks').value) || 0;
-                    const total = theoryMarks + practicalMarks;
-                    
-                    // Calculate grade based on percentage of max marks
-                    const percentage = (total / maxMarks) * 100;
-                    let grade = '';
-                    let remarks = '';
-                    
-                    if (percentage >= 90) {
-                        grade = 'A+';
-                        remarks = 'Excellent';
-                    } else if (percentage >= 80) {
-                        grade = 'A';
-                        remarks = 'Very Good';
-                    } else if (percentage >= 70) {
-                        grade = 'B+';
-                        remarks = 'Good';
-                    } else if (percentage >= 60) {
-                        grade = 'B';
-                        remarks = 'Satisfactory';
-                    } else if (percentage >= 50) {
-                        grade = 'C+';
-                        remarks = 'Needs Improvement';
-                    } else if (percentage >= 40) {
-                        grade = 'C';
-                        remarks = 'Poor';
-                    } else if (total > 0) {
-                        grade = 'F';
-                        remarks = 'Fail';
-                    } else {
-                        grade = '-';
-                        remarks = 'Not Attempted';
-                    }
-                    
-                    // Add to table
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${subjectName}</td>
-                        <td>${theoryMarks || '-'}</td>
-                        <td>${practicalMarks || '-'}</td>
-                        <td>${total > 0 ? total : '-'}</td>
-                        <td>${grade}</td>
-                        <td>${remarks}</td>
-                    `;
-                    tableBody.appendChild(tr);
-                    
-                    // Calculate totals
-                    totalPossibleMarks += maxMarks;
-                    obtainedMarks += total;
-                });
-                
-                // Calculate overall results
-                const percentage = totalPossibleMarks > 0 ? (obtainedMarks / totalPossibleMarks * 100).toFixed(2) : 0;
-                
-                document.getElementById('totalMarks').textContent = totalPossibleMarks;
-                document.getElementById('obtainedMarks').textContent = obtainedMarks;
-                document.getElementById('percentage').textContent = percentage + '%';
-                
-                // Determine overall grade
-                let overallGrade = '';
-                if (percentage >= 90) {
-                    overallGrade = 'A+';
-                } else if (percentage >= 80) {
-                    overallGrade = 'A';
-                } else if (percentage >= 70) {
-                    overallGrade = 'B+';
-                } else if (percentage >= 60) {
-                    overallGrade = 'B';
-                } else if (percentage >= 50) {
-                    overallGrade = 'C+';
-                } else if (percentage >= 40) {
-                    overallGrade = 'C';
-                } else if (obtainedMarks > 0) {
-                    overallGrade = 'F';
-                } else {
-                    overallGrade = '-';
-                }
-                
-                document.getElementById('overallGrade').textContent = overallGrade;
-                
-                // Generate a random position (for demo purposes)
-                const position = Math.floor(Math.random() * 30) + 1;
-                const suffix = position === 1 ? 'st' : position === 2 ? 'nd' : position === 3 ? 'rd' : 'th';
-                document.getElementById('position').textContent = position + suffix;
-                
-                // Generate document ID and date
-                const now = new Date();
-                document.getElementById('documentId').textContent = 'RES-' + now.getTime();
-                document.getElementById('generatedDate').textContent = now.toLocaleString();
-                
-                // Show result card
-                resultCard.style.display = 'block';
-                
-                // Scroll to result card
-                resultCard.scrollIntoView({ behavior: 'smooth' });
-            });
-            
-            // Print functionality
-            printBtn.addEventListener('click', function() {
-                window.print();
-            });
-            
-            // Download as PDF using html2pdf.js - FIXED VERSION
-            downloadPdfBtn.addEventListener('click', async function() {
-                if (resultCard.style.display !== 'block') {
-                    alert('Please generate the result card first');
-                    return;
-                }
+  <div class="signatures">
+    <div class="sign-box">
+      <div class="line"></div>
+      Teacher's Signature
+    </div>
+    <div class="sign-box">
+      <div class="line"></div>
+      Principal's Signature
+    </div>
+  </div>
 
-                // Show loading indicator
-                downloadPdfBtn.disabled = true;
-                downloadPdfBtn.textContent = 'Generating PDF...';
-                
-                try {
-                    // Create a clone of the result card
-                    const element = resultCard.cloneNode(true);
-                    element.style.display = 'block';
-                    
-                    // Make sure images are loaded
-                    const images = element.getElementsByTagName('img');
-                    for (let img of images) {
-                        if (!img.complete) {
-                            await new Promise(resolve => {
-                                img.onload = resolve;
-                                img.onerror = resolve; // Continue even if image fails to load
-                            });
-                        }
-                    }
-                    
-                    // PDF generation options
-                    const options = {
-                        margin: 10,
-                        filename: `GGMPS_Result_${document.getElementById('resultStudentName').textContent}.pdf`,
-                        image: { 
-                            type: 'jpeg', 
-                            quality: 0.98 
-                        },
-                        html2canvas: { 
-                            scale: 2,
-                            logging: true,
-                            useCORS: true,
-                            allowTaint: true,
-                            scrollX: 0,
-                            scrollY: 0,
-                            windowWidth: document.documentElement.offsetWidth,
-                            windowHeight: document.documentElement.offsetHeight
-                        },
-                        jsPDF: { 
-                            unit: 'mm', 
-                            format: 'a4', 
-                            orientation: 'portrait' 
-                        }
-                    };
-                    
-                    // Generate PDF directly from the visible element (no clone needed)
-                    await html2pdf().set(options).from(resultCard).save();
-                    
-                } catch (error) {
-                    console.error('PDF generation error:', error);
-                    alert('Error generating PDF. Please try again.');
-                } finally {
-                    // Restore button state
-                    downloadPdfBtn.disabled = false;
-                    downloadPdfBtn.textContent = 'Download as PDF';
-                }
-            });
-            
-            // Security: Prevent right-click on sensitive elements
-            resultCard.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                alert('Right-click disabled for security');
-            });
-            
-            // Security: Prevent image dragging
-            document.querySelectorAll('img').forEach(img => {
-                img.addEventListener('dragstart', function(e) {
-                    e.preventDefault();
-                });
-            });
-        });
-    </script>
+  <div class="footer">
+    This result card is digitally generated and verified by GGMPS Basti Hala.
+  </div>
+
+  <button id="downloadBtn">Download as PDF</button>
+</div>
+
+<script>
+  const form = document.getElementById('studentForm');
+  const nameInput = document.getElementById('name');
+  const rollNoInput = document.getElementById('rollNo');
+  const classInput = document.getElementById('class');
+  const mathMarksInput = document.getElementById('mathMarks');
+  const mathMaxMarksInput = document.getElementById('mathMaxMarks');
+  const englishMarksInput = document.getElementById('englishMarks');
+  const englishMaxMarksInput = document.getElementById('englishMaxMarks');
+  const scienceMarksInput = document.getElementById('scienceMarks');
+  const scienceMaxMarksInput = document.getElementById('scienceMaxMarks');
+  const resultCard = document.getElementById('resultCard');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const formContainer = document.getElementById('formContainer');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const student = {
+      name: nameInput.value,
+      rollNo: rollNoInput.value,
+      class: classInput.value,
+      marks: [
+        { subject: 'Math', obtained: parseFloat(mathMarksInput.value), max: parseFloat(mathMaxMarksInput.value) },
+        { subject: 'English', obtained: parseFloat(englishMarksInput.value), max: parseFloat(englishMaxMarksInput.value) },
+        { subject: 'Science', obtained: parseFloat(scienceMarksInput.value), max: parseFloat(scienceMaxMarksInput.value) }
+      ]
+    };
+
+    document.getElementById('rName').innerText = student.name;
+    document.getElementById('rRoll').innerText = student.rollNo;
+    document.getElementById('rClass').innerText = student.class;
+
+    let totalMarks = 0;
+    let maxMarks = 0;
+    let table = '';
+    student.marks.forEach((mark) => {
+      const grade = gradeCalc(mark.obtained, mark.max);
+      table += `<tr>
+        <td>${mark.subject}</td>
+        <td>${mark.obtained}</td>
+        <td>${mark.max}</td>
+        <td class="grade ${grade}">${grade}</td>
+      </tr>`;
+      totalMarks += mark.obtained;
+      maxMarks += mark.max;
+    });
+
+    document.getElementById('marksTable').innerHTML = table;
+    const percentage = (totalMarks / maxMarks) * 100;
+    document.getElementById('totalMarks').innerText = totalMarks;
+    document.getElementById('percentage').innerText = percentage.toFixed(2);
+
+    let finalGrade = 'F';
+    if (percentage >= 80) finalGrade = 'A';
+    else if (percentage >= 60) finalGrade = 'B';
+    else if (percentage >= 40) finalGrade = 'C';
+    document.getElementById('finalGrade').className = `grade ${finalGrade}`;
+    document.getElementById('finalGrade').innerText = finalGrade;
+
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = `${percentage}%`;
+    progressBar.innerText = `${percentage.toFixed(2)}%`;
+
+    formContainer.style.display = "none";
+    resultCard.style.display = "block";
+    downloadBtn.style.display = "inline-block";
+  });
+
+  downloadBtn.addEventListener('click', function () {
+    const element = document.getElementById('resultCard');
+    const opt = {
+      margin: 0,
+      filename: 'result-card.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
+  });
+
+  function gradeCalc(obtained, max) {
+    const percentage = (obtained / max) * 100;
+    if (percentage >= 80) return 'A';
+    if (percentage >= 60) return 'B';
+    if (percentage >= 40) return 'C';
+    return 'F';
+  }
+</script>
+
 </body>
 </html>
