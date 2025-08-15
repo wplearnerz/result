@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Result Card Generator</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -13,7 +12,6 @@
       margin: 0;
       padding: 20px;
     }
-
     .container {
       max-width: 850px;
       margin: auto;
@@ -22,139 +20,58 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       padding: 30px;
     }
-
     .header {
       text-align: center;
       padding: 20px;
       border-bottom: 2px solid #007BFF;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
-
-    .header h1 {
+    .school-name {
+      font-size: 24px;
+      font-weight: bold;
       color: #007BFF;
-      margin: 0;
-      font-size: 32px;
     }
-
-    .header small {
-      display: block;
-      font-style: italic;
-      color: #333;
-      font-size: 16px;
-      margin-top: 4px;
+    .student-info {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
     }
-
-    .info {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 18px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
+    .student-info div {
+      margin-bottom: 8px;
     }
-
-    .info span {
-      color: #444;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 25px;
+      margin-top: 20px;
     }
-
     table, th, td {
       border: 1px solid #ddd;
     }
-
     th {
       background: #007BFF;
       color: white;
       padding: 10px;
       text-align: center;
     }
-
     td {
       padding: 10px;
       text-align: center;
-      font-size: 16px;
     }
-
-    td.grade {
-      text-align: center;
-      font-weight: bold;
-      color: white;
-    }
-
-    .summary {
-      margin-top: 30px;
-    }
-
-    .summary p {
-      font-size: 18px;
-      margin: 8px 0;
-    }
-
     .grade {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 12px;
-      color: white;
       font-weight: bold;
+      color: white;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 4px 10px;
     }
-
     .A { background: #28a745; }
     .B { background: #ffc107; }
     .C { background: #fd7e14; }
     .F { background: #dc3545; }
-
-    .progress-bar {
-      width: 100%;
-      background: #e9ecef;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .progress {
-      height: 20px;
-      background: #007BFF;
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      line-height: 20px;
-    }
-
-    .signatures {
-      margin-top: 60px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .sign-box {
-      text-align: center;
-    }
-
-    .sign-box .line {
-      border-top: 1px solid #444;
-      margin-top: 40px;
-      width: 180px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 13px;
-      color: #888;
-    }
-
     #downloadBtn {
-      margin: 30px auto 0;
-      display: none;
+      margin-top: 20px;
       padding: 12px 30px;
       background: #007BFF;
       border: none;
@@ -163,24 +80,17 @@
       font-size: 16px;
       cursor: pointer;
     }
-
     #downloadBtn:hover {
       background: #0056b3;
     }
-
-    .form-container {
-      margin-bottom: 30px;
-    }
-
-    input[type="text"], input[type="number"], select {
+    input[type="text"], input[type="number"] {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 8px 0;
       border: 1px solid #ddd;
       border-radius: 8px;
       font-size: 16px;
     }
-
     button[type="submit"] {
       padding: 12px 25px;
       background-color: #007BFF;
@@ -189,26 +99,10 @@
       font-size: 16px;
       cursor: pointer;
       border-radius: 8px;
-      margin-top: 35px;
+      margin-top: 20px;
     }
-
     button[type="submit"]:hover {
       background-color: #0056b3;
-    }
-
-    #formContainer {
-      display: block;
-    }
-
-    #resultCard {
-      display: none;
-    }
-
-    .school-name {
-      font-size: 24px;
-      font-weight: bold;
-      color: #007BFF;
-      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -219,39 +113,44 @@
     <div class="school-name">GGMPS BASTI HALA - Result Card Generator</div>
   </div>
 
-  <div class="form-container">
-    <h3>Enter Student Details</h3>
-    <form id="studentForm">
-      <input type="text" id="name" placeholder="Student Name" required />
-      <input type="number" id="rollNo" placeholder="Roll Number" required />
-      <input type="text" id="class" placeholder="Class" required />
-      
-      <div>
-        <h4>Marks (Out of 100)</h4>
-        <input type="number" id="mathMarks" placeholder="Math Marks" required />
-        <input type="number" id="mathMaxMarks" placeholder="Math Maximum Marks" required />
+  <form id="studentForm">
+    <input type="text" id="name" placeholder="Student Name" required />
+    <input type="number" id="rollNo" placeholder="Roll Number" required />
+    <input type="text" id="class" placeholder="Class" required />
 
-        <input type="number" id="englishMarks" placeholder="English Marks" required />
-        <input type="number" id="englishMaxMarks" placeholder="English Maximum Marks" required />
+    <h4>Enter Marks</h4>
+    <input type="number" id="mathMarks" placeholder="Math Marks" required />
+    <input type="number" id="mathMaxMarks" placeholder="Math Max Marks" required />
 
-        <input type="number" id="scienceMarks" placeholder="Science Marks" required />
-        <input type="number" id="scienceMaxMarks" placeholder="Science Maximum Marks" required />
-      </div>
-      <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Generate Result Card</button> 
-      
-    </form>
-  </div>
+    <input type="number" id="englishMarks" placeholder="English Marks" required />
+    <input type="number" id="englishMaxMarks" placeholder="English Max Marks" required />
+
+    <input type="number" id="scienceMarks" placeholder="Science Marks" required />
+    <input type="number" id="scienceMaxMarks" placeholder="Science Max Marks" required />
+
+    <input type="number" id="urduMarks" placeholder="Urdu Marks" required />
+    <input type="number" id="urduMaxMarks" placeholder="Urdu Max Marks" required />
+
+    <input type="number" id="islamicMarks" placeholder="Islamic Studies Marks" required />
+    <input type="number" id="islamicMaxMarks" placeholder="Islamic Studies Max Marks" required />
+
+    <button type="submit">Generate Result Card</button>
+  </form>
 </div>
 
-<div class="container" id="resultCard">
+<div class="container" id="resultCard" style="display:none;">
   <div class="header">
     <div class="school-name">GGMPS BASTI HALA - Result Card</div>
   </div>
 
-  <div class="info">
-    <div><strong>Name:</strong> <span id="rName">Ali Raza</span></div>
-    <div><strong>Roll No:</strong> <span id="rRoll">07</span></div>
-    <div><strong>Class:</strong> <span id="rClass">5th</span></div>
+  <div class="student-info">
+    <div style="display: flex; justify-content: space-between;">
+      <div><strong>Name:</strong> <span id="rName"></span></div>
+      <div><strong>Roll No:</strong> <span id="rRoll"></span></div>
+    </div>
+    <div>
+      <strong>Class:</strong> <span id="rClass"></span>
+    </div>
   </div>
 
   <table>
@@ -263,34 +162,22 @@
         <th>Grade</th>
       </tr>
     </thead>
-    <tbody id="marksTable">
-      <!-- Dynamic Content -->
-    </tbody>
+    <tbody id="marksTable"></tbody>
   </table>
 
-  <div class="summary">
-    <p><strong>Total Marks:</strong> <span id="totalMarks">0</span> / 300</p>
-    <p><strong>Percentage:</strong> <span id="percentage">0</span>%</p>
-    <p><strong>Final Grade:</strong> <span id="finalGrade" class="grade">A</span></p>
-
-    <div class="progress-bar">
-      <div class="progress" id="progressBar" style="width: 0%">0%</div>
-    </div>
+  <div style="margin-top: 30px; text-align: center; font-size: 14px; color: #555;">
+    Electronically generated result card verified by <strong>GGMPS BASTI HALA</strong>
   </div>
 
-  <div class="signatures">
-    <div class="sign-box">
-      <div class="line"></div>
-      Teacher's Signature
+  <div style="display: flex; justify-content: space-between; margin-top: 50px; font-size: 14px; color: #333;">
+    <div style="text-align: center;">
+      ______________________<br>
+      Teacher Signature
     </div>
-    <div class="sign-box">
-      <div class="line"></div>
-      Principal's Signature
+    <div style="text-align: center;">
+      ______________________<br>
+      Principal Signature
     </div>
-  </div>
-
-  <div class="footer">
-    This result card is digitally generated and verified by GGMPS Basti Hala.
   </div>
 
   <button id="downloadBtn">Download as PDF</button>
@@ -298,30 +185,23 @@
 
 <script>
   const form = document.getElementById('studentForm');
-  const nameInput = document.getElementById('name');
-  const rollNoInput = document.getElementById('rollNo');
-  const classInput = document.getElementById('class');
-  const mathMarksInput = document.getElementById('mathMarks');
-  const mathMaxMarksInput = document.getElementById('mathMaxMarks');
-  const englishMarksInput = document.getElementById('englishMarks');
-  const englishMaxMarksInput = document.getElementById('englishMaxMarks');
-  const scienceMarksInput = document.getElementById('scienceMarks');
-  const scienceMaxMarksInput = document.getElementById('scienceMaxMarks');
+  const formContainer = document.getElementById('formContainer');
   const resultCard = document.getElementById('resultCard');
   const downloadBtn = document.getElementById('downloadBtn');
-  const formContainer = document.getElementById('formContainer');
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
     const student = {
-      name: nameInput.value,
-      rollNo: rollNoInput.value,
-      class: classInput.value,
+      name: document.getElementById('name').value,
+      rollNo: document.getElementById('rollNo').value,
+      class: document.getElementById('class').value,
       marks: [
-        { subject: 'Math', obtained: parseFloat(mathMarksInput.value), max: parseFloat(mathMaxMarksInput.value) },
-        { subject: 'English', obtained: parseFloat(englishMarksInput.value), max: parseFloat(englishMaxMarksInput.value) },
-        { subject: 'Science', obtained: parseFloat(scienceMarksInput.value), max: parseFloat(scienceMaxMarksInput.value) }
+        { subject: 'Math', obtained: +document.getElementById('mathMarks').value, max: +document.getElementById('mathMaxMarks').value },
+        { subject: 'English', obtained: +document.getElementById('englishMarks').value, max: +document.getElementById('englishMaxMarks').value },
+        { subject: 'Science', obtained: +document.getElementById('scienceMarks').value, max: +document.getElementById('scienceMaxMarks').value },
+        { subject: 'Urdu', obtained: +document.getElementById('urduMarks').value, max: +document.getElementById('urduMaxMarks').value },
+        { subject: 'Islamic Studies', obtained: +document.getElementById('islamicMarks').value, max: +document.getElementById('islamicMaxMarks').value }
       ]
     };
 
@@ -329,62 +209,72 @@
     document.getElementById('rRoll').innerText = student.rollNo;
     document.getElementById('rClass').innerText = student.class;
 
-    let totalMarks = 0;
-    let maxMarks = 0;
-    let table = '';
-    student.marks.forEach((mark) => {
+    let totalObtained = 0;
+    let totalMax = 0;
+    let tableRows = '';
+
+    student.marks.forEach(mark => {
       const grade = gradeCalc(mark.obtained, mark.max);
-      table += `<tr>
-        <td>${mark.subject}</td>
-        <td>${mark.obtained}</td>
-        <td>${mark.max}</td>
-        <td class="grade ${grade}">${grade}</td>
-      </tr>`;
-      totalMarks += mark.obtained;
-      maxMarks += mark.max;
+      tableRows += `
+        <tr>
+          <td>${mark.subject}</td>
+          <td>${mark.obtained}</td>
+          <td>${mark.max}</td>
+          <td><span class="grade ${grade}">${grade}</span></td>
+        </tr>
+      `;
+      totalObtained += mark.obtained;
+      totalMax += mark.max;
     });
 
-    document.getElementById('marksTable').innerHTML = table;
-    const percentage = (totalMarks / maxMarks) * 100;
-    document.getElementById('totalMarks').innerText = totalMarks;
-    document.getElementById('percentage').innerText = percentage.toFixed(2);
+    const percentage = ((totalObtained / totalMax) * 100).toFixed(2);
+    let finalGrade = gradeCalc(totalObtained, totalMax);
 
-    let finalGrade = 'F';
-    if (percentage >= 80) finalGrade = 'A';
-    else if (percentage >= 60) finalGrade = 'B';
-    else if (percentage >= 40) finalGrade = 'C';
-    document.getElementById('finalGrade').className = `grade ${finalGrade}`;
-    document.getElementById('finalGrade').innerText = finalGrade;
+    tableRows += `
+      <tr>
+        <td><strong>Grand Total</strong></td>
+        <td><strong>${totalObtained}</strong></td>
+        <td><strong>${totalMax}</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Percentage</strong></td>
+        <td colspan="2"><strong>${percentage}%</strong></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Final Grade</strong></td>
+        <td colspan="2"></td>
+        <td><span class="grade ${finalGrade}">${finalGrade}</span></td>
+      </tr>
+    `;
 
-    const progressBar = document.getElementById('progressBar');
-    progressBar.style.width = `${percentage}%`;
-    progressBar.innerText = `${percentage.toFixed(2)}%`;
+    document.getElementById('marksTable').innerHTML = tableRows;
 
-    formContainer.style.display = "none";
-    resultCard.style.display = "block";
-    downloadBtn.style.display = "inline-block";
+    formContainer.style.display = 'none';
+    resultCard.style.display = 'block';
   });
 
   downloadBtn.addEventListener('click', function () {
     const element = document.getElementById('resultCard');
-    const opt = {
+    html2pdf().from(element).set({
       margin: 0,
       filename: 'result-card.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().from(element).set(opt).save();
+    }).save();
   });
 
   function gradeCalc(obtained, max) {
-    const percentage = (obtained / max) * 100;
-    if (percentage >= 80) return 'A';
-    if (percentage >= 60) return 'B';
-    if (percentage >= 40) return 'C';
+    const percent = (obtained / max) * 100;
+    if (percent >= 80) return 'A';
+    if (percent >= 60) return 'B';
+    if (percent >= 40) return 'C';
     return 'F';
   }
 </script>
 
 </body>
 </html>
+
